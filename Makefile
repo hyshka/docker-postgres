@@ -33,3 +33,8 @@ dropdb: ## Drop a database
 importdb: ## Import sql dump to a database
 	docker exec -i $(CONTAINERNAME) psql -Upostgres -d $(db) < $(dump)
 
+importdump: ## Import sql dump with multiple databases
+	docker exec -i $(CONTAINERNAME) psql -Upostgres postgres < $(dump)
+
+exportdump: ## Export sql dump with all databases
+	docker exec -i $(CONTAINERNAME) pg_dumpall -Upostgres > $(dump)
