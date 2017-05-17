@@ -30,11 +30,14 @@ createdb: ## Create a new databse
 dropdb: ## Drop a database
 	docker exec -i $(CONTAINERNAME) /bin/bash -c "dropdb -Upostgres $(db)"
 
-importdb: ## Import sql dump to a database
+importdb: ## Import sql dump to a database (db=database_name, dump=database.sql)
 	docker exec -i $(CONTAINERNAME) psql -Upostgres -d $(db) < $(dump)
 
 importdump: ## Import sql dump with multiple databases
 	docker exec -i $(CONTAINERNAME) psql -Upostgres postgres < $(dump)
+
+exportdb: ## Export sql dump to a database (db=database_name)
+	docker exec -i $(CONTAINERNAME) pg_dump -Upostgres $(db) > /tmp/$(db)-$(shell date +%F).sql
 
 exportdump: ## Export sql dump with all databases
 	docker exec -i $(CONTAINERNAME) pg_dumpall -Upostgres > $(dump)
