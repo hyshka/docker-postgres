@@ -41,3 +41,6 @@ exportdb: ## Export sql dump to a database (db=database_name)
 
 exportdump: ## Export sql dump with all databases
 	docker exec -i $(CONTAINERNAME) pg_dumpall -Upostgres > $(dump)
+
+vacuumall: ## Vacuum all databased to reclaim disk space
+	docker exec -i $(CONTAINERNAME) vacuumdb --all -Upostgres
